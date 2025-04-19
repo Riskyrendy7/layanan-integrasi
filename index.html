@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layanan Integrasi - SI CENI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #d1d1cf;
+      color: #333;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+    header img {
+      width: 120px;
+      display: block;
+      margin: 0 auto 1rem;
+    }
+    h1, h2 {
+      color: #001f3f;
+    }
+    .section {
+      background: #debc4e;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+    label, input {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input[type="number"], input[type="date"] {
+      width: 150px;
+      padding: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #001f3f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #003366;
+    }
+    #hasilEkspirasi {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    a.download-link, .back-link {
+      display: inline-block;
+      margin-top: 1rem;
+      background: #001f3f;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    a.download-link:hover, .back-link:hover {
+      background: #003366;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="siceni.png" alt="Logo SI CENI">
+    <h1>SI CENI - Layanan Integrasi</h1>
+  </header>
+
+  <div class="section">
+    <h2>Informasi Integrasi (PB, CB, dan CMB)</h2>
+    <p>Integrasi merupakan proses pembinaan narapidana yang meliputi Pembebasan Bersyarat (PB), Cuti Bersyarat (CB), dan Cuti Menjelang Bebas (CMB). Untuk memudahkan penentuan masa integrasi, gunakan kalkulator di bawah ini.</p>
+  </div>
+
+  <div class="section">
+    <h2>Kalkulator Ekspirasi</h2>
+    <label>Tanggal Penahanan:
+      <input type="date" id="tglPenahanan" />
+    </label>
+
+    <label>Vonis:</label>
+    <input type="number" id="tahunVonis" placeholder="Tahun" /> Tahun
+    <input type="number" id="bulanVonis" placeholder="Bulan" /> Bulan
+    <input type="number" id="hariVonis" placeholder="Hari" /> Hari <br><br><br>
+
+    <label>Jumlah Remisi:</label>
+    <input type="number" id="remisiBulan" placeholder="Bulan" /> Bulan
+    <input type="number" id="remisiHari" placeholder="Hari" /> Hari
+
+    <br><br><button onclick="hitungEkspirasi()">Hitung Ekspirasi</button>
+
+    <div id="hasilEkspirasi"></div>
+  </div>
+
+  <div class="section">
+    <h2>Persyaratan Integrasi</h2>
+    <ul>
+      <li>1. Fotokopi KTP Penjamin (1 lembar)</li>
+      <li>2. Fotokopi KK Penjamin (1 lembar)</li>
+      <li>3. Surat Jaminan Keluarga</li>
+      <li>4. Surat Pernyataan Narapidana/Anak</li>
+      <li>5. Materai 10.000 (4 lembar)</li>
+    </ul>
+    
+    <p>Klik tombol di bawah ini untuk mengunduh contoh Surat Jaminan:</p>
+    <a href="surat_jaminan.pdf" class="download-link" download>📄 Unduh Surat Jaminan</a>
+  </div>
+
+  <a href="https://riskyrendy7.github.io/siceni" class="back-link">⬅️ Kembali ke Halaman Utama</a>
+
+  <script>
+    function hitungEkspirasi() {
+      const tglPenahanan = new Date(document.getElementById("tglPenahanan").value);
+      const tahunVonis = parseInt(document.getElementById("tahunVonis").value || 0);
+      const bulanVonis = parseInt(document.getElementById("bulanVonis").value || 0);
+      const hariVonis = parseInt(document.getElementById("hariVonis").value || 0);
+      const remisiBulan = parseInt(document.getElementById("remisiBulan").value || 0);
+      const remisiHari = parseInt(document.getElementById("remisiHari").value || 0);
+
+      if (isNaN(tglPenahanan.getTime())) {
+        document.getElementById("hasilEkspirasi").innerText = "Mohon isi Tanggal Penahanan dengan benar.";
+        return;
+      }
+
+      let totalHariVonis = (tahunVonis * 365) + (bulanVonis * 30) + hariVonis;
+      let totalHariRemisi = (remisiBulan * 30) + remisiHari;
+      let totalHariSetelahRemisi = totalHariVonis - totalHariRemisi;
+
+      let tanggalEkspirasi = new Date(tglPenahanan);
+      tanggalEkspirasi.setDate(tanggalEkspirasi.getDate() + totalHariSetelahRemisi);
+
+      let sepertiga = new Date(tglPenahanan);
+      sepertiga.setDate(sepertiga.getDate() + Math.floor(totalHariSetelahRemisi * 1/3));
+
+      let setengah = new Date(tglPenahanan);
+      setengah.setDate(setengah.getDate() + Math.floor(totalHariSetelahRemisi * 1/2));
+
+      let duapertiga = new Date(tglPenahanan);
+      duapertiga.setDate(duapertiga.getDate() + Math.floor(totalHariSetelahRemisi * 2/3));
+
+      document.getElementById("hasilEkspirasi").innerHTML = `
+        <p>Tanggal Ekspirasi: <strong>${tanggalEkspirasi.toDateString()}</strong></p>
+        <p>1/3 Masa Pidana: <strong>${sepertiga.toDateString()}</strong></p>
+        <p>1/2 Masa Pidana: <strong>${setengah.toDateString()}</strong></p>
+        <p>2/3 Masa Pidana: <strong>${duapertiga.toDateString()}</strong></p>
+      `;
+    }
+  </script>
+</body>
+</html>
