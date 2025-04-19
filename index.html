@@ -61,9 +61,18 @@
       padding: 0.5rem 1rem;
       border-radius: 6px;
       text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
     }
     a.download-link:hover, .back-link:hover {
       background: #003366;
+      animation: pulse 0.5s ease;
+    }
+
+    /* Animasi pulse */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
@@ -107,9 +116,9 @@
       <li>4. Surat Pernyataan Narapidana/Anak</li>
       <li>5. Materai 10.000 (4 lembar)</li>
     </ul>
-    
+
     <p>Klik tombol di bawah ini untuk mengunduh contoh Surat Jaminan:</p>
-    <a href="surat_jaminan.pdf" class="download-link" download>📄 Unduh Surat Jaminan</a>
+    <a href="/mnt/data/Format Surat Jaminan.docx" class="download-link" download>📄 Unduh Surat Jaminan</a>
   </div>
 
   <a href="https://riskyrendy7.github.io/si-ceni" class="back-link">⬅️ Kembali ke Halaman Utama</a>
