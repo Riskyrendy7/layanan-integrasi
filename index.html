@@ -7,76 +7,126 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #d1d1cf;
+      background-color: #f4f4f9;
       color: #333;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #001f3f;
+      color: white;
+      padding: 20px;
       text-align: center;
     }
     header img {
       width: 120px;
       display: block;
-      margin: 0 auto 1rem;
+      margin: 0 auto 10px;
     }
-    h1, h2 {
-      color: #001f3f;
+    header h1, header h2 {
+      margin: 0;
+    }
+    nav {
+      background-color: #001f3f;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      display: inline-block;
+      margin: 0 15px;
+    }
+    nav a:hover {
+      background-color: #003366;
+      border-radius: 5px;
     }
     .section {
-      background: #debc4e;
-      padding: 1.5rem;
+      background-color: #debc4e;
+      padding: 20px;
+      margin: 20px auto;
       border-radius: 12px;
-      margin-bottom: 2rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      text-align: left;
+      width: 80%;
+      max-width: 900px;
+    }
+    .section h2 {
+      font-size: 24px;
+      text-align: center;
+    }
+    .input-group {
+      margin-bottom: 20px;
     }
     label, input {
       display: block;
+      width: 100%;
       margin-bottom: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
     }
     input[type="number"], input[type="date"] {
-      width: 150px;
-      padding: 5px;
+      width: 100%;
+      max-width: 250px;
+      padding: 10px;
+      font-size: 16px;
     }
     button {
-      padding: 10px 20px;
       background-color: #001f3f;
       color: white;
+      padding: 10px 20px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      max-width: 250px;
+      margin: 0 auto;
+      display: block;
     }
     button:hover {
       background-color: #003366;
     }
-    #hasilEkspirasi {
-      margin-top: 20px;
-      font-weight: bold;
-    }
-    a.download-link, .back-link {
+    .download-link {
       display: inline-block;
-      margin-top: 1rem;
-      background: #001f3f;
+      margin-top: 20px;
+      background-color: #001f3f;
       color: white;
-      padding: 0.5rem 1rem;
+      padding: 10px 20px;
       border-radius: 6px;
       text-decoration: none;
-      transition: background 0.3s ease, transform 0.3s ease;
     }
-    a.download-link:hover, .back-link:hover {
-      background: #003366;
-      animation: pulse 0.5s ease;
+    .download-link:hover {
+      background-color: #003366;
     }
-
-    /* Animasi pulse */
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    .progress {
+      margin-top: 30px;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .step {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      background-color: #dfe6e9;
+    }
+    .done {
+      background-color: #27ae60;
+      color: white;
+    }
+    #catatan {
+      font-style: italic;
+      margin-top: 20px;
+      color: #e74c3c;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+
   <header>
     <img src="imipas.png" alt="Logo SI CENI">
     <h2>KEMENTERIAN IMIGRASI DAN PEMASYARAKATAN</h2>
@@ -84,32 +134,62 @@
     <h1>SI CENI - LAYANAN INTEGRASI</h1>
   </header>
 
-  <div class="section">
-    <h2>Informasi Integrasi (PB, CB, dan CMB)</h2>
-    <p>Integrasi merupakan proses pembinaan narapidana yang meliputi Pembebasan Bersyarat (PB), Cuti Bersyarat (CB), dan Cuti Menjelang Bebas (CMB). Untuk memudahkan penentuan masa integrasi, gunakan kalkulator di bawah ini.</p>
+  <!-- Navigation Menu -->
+  <nav>
+    <a href="#tracking">Tracking Progres Integrasi</a>
+    <a href="#kalkulator">Kalkulator Ekspirasi</a>
+    <a href="#persyaratan">Persyaratan Integrasi</a>
+  </nav>
+
+  <!-- Tracking Integrasi Section -->
+  <div class="section" id="tracking">
+    <h2>Tracking Integrasi Lapas Kotabaru</h2>
+    <p>Masukkan kode integrasi atau scan QR code:</p>
+
+    <input type="text" id="kodeInput" placeholder="Contoh: INTRG12345">
+    <br>
+    <button onclick="cekProgress()">Cek Progres</button>
+
+    <div id="progressResult" class="progress"></div>
   </div>
 
-  <div class="section">
+  <!-- Kalkulator Ekspirasi Section -->
+  <div class="section" id="kalkulator">
     <h2>Kalkulator Ekspirasi</h2>
-    <label>Tanggal Penahanan:
-      <input type="date" id="tglPenahanan" />
-    </label>
-
-    <label>Vonis:</label>
-    <input type="number" id="tahunVonis" placeholder="Tahun" /> Tahun
-    <input type="number" id="bulanVonis" placeholder="Bulan" /> Bulan
-    <input type="number" id="hariVonis" placeholder="Hari" /> Hari <br><br><br>
-
-    <label>Jumlah Remisi:</label>
-    <input type="number" id="remisiBulan" placeholder="Bulan" /> Bulan
-    <input type="number" id="remisiHari" placeholder="Hari" /> Hari
-
-    <br><br><button onclick="hitungEkspirasi()">Hitung Ekspirasi</button>
-
+    <div class="input-group">
+      <label for="tglPenahanan">Tanggal Penahanan:</label>
+      <input type="date" id="tglPenahanan">
+    </div>
+    <div class="input-group">
+      <label for="tahunVonis">Vonis (Tahun):</label>
+      <input type="number" id="tahunVonis" placeholder="Tahun">
+    </div>
+    <div class="input-group">
+      <label for="bulanVonis">Vonis (Bulan):</label>
+      <input type="number" id="bulanVonis" placeholder="Bulan">
+    </div>
+    <div class="input-group">
+      <label for="hariVonis">Vonis (Hari):</label>
+      <input type="number" id="hariVonis" placeholder="Hari">
+    </div>
+    <div class="input-group">
+      <label for="remisiBulan">Jumlah Remisi (Bulan):</label>
+      <input type="number" id="remisiBulan" placeholder="Bulan">
+    </div>
+    <div class="input-group">
+      <label for="remisiHari">Jumlah Remisi (Hari):</label>
+      <input type="number" id="remisiHari" placeholder="Hari">
+    </div>
+    <button onclick="hitungEkspirasi()">Hitung Ekspirasi</button>
     <div id="hasilEkspirasi"></div>
+    <!-- Catatan -->
+    <div id="catatan">
+      Hasil dari perhitungan tersebut bukan merupakan acuan perhitungan resmi, untuk hasil pastinya silakan tanyakan ke subseksi Registrasi Lapas Kotabaru.
+    </div>
   </div>
 
-  <div class="section">
+  <!-- Persyaratan Integrasi Section -->
+  <div class="section" id="persyaratan">
     <h2>Persyaratan Integrasi</h2>
     <ul>
       <li>1. Fotokopi KTP Penjamin (1 lembar)</li>
@@ -123,9 +203,52 @@
     <a href="https://docs.google.com/document/d/1FppPejrI3OqxkAazKfqs2hFM_JS_QKvO/edit?usp=sharing&ouid=108193615311703833627&rtpof=true&sd=true" target="_blank" class="download-link">📄 Unduh Surat Jaminan</a>
   </div>
 
-  <a href="https://riskyrendy7.github.io/si-ceni" class="back-link">⬅️ Kembali ke Halaman Utama</a>
-
   <script>
+    const dataIntegrasi = {
+      'INTRG12345': { nama: 'Ahmad Fauzi', tanggal: ['2025-04-01', '2025-04-04', '2025-04-10', '', ''] },
+      'INTRG67890': { nama: 'Budi Santoso', tanggal: ['2025-04-02', '2025-04-05', '2025-04-09', '2025-04-14', '2025-04-18'] },
+      'INTRG54321': { nama: 'Cecep Suhendar', tanggal: ['2025-04-05', '', '', '', ''] },
+      'INTRG11223': { nama: 'Doni Wahyudi', tanggal: ['2025-04-02', '2025-04-06', '2025-04-09', '2025-04-15', ''] },
+      'INTRG33445': { nama: 'Eko Prasetyo', tanggal: ['2025-04-03', '2025-04-08', '', '', ''] }
+    };
+
+    const langkah = [
+      '1. Memasukkan berkas jaminan',
+      '2. Permintaan litmas',
+      '3. Litmas selesai',
+      '4. Sidang TPP',
+      '5. Sudah Diusulkan'
+    ];
+
+    function cekProgress(kodeOverride = null) {
+      const kode = kodeOverride || document.getElementById('kodeInput').value.trim();
+      const resultDiv = document.getElementById('progressResult');
+      resultDiv.innerHTML = '';
+
+      if (!dataIntegrasi[kode]) {
+        resultDiv.innerHTML = '<p style="color:red;">Kode tidak ditemukan.</p>';
+        return;
+      }
+
+      const data = dataIntegrasi[kode];
+      const namaDiv = document.createElement('div');
+      namaDiv.className = 'wbp-name';
+      namaDiv.textContent = `Nama WBP: ${data.nama}`;
+      resultDiv.appendChild(namaDiv);
+
+      for (let i = 0; i < langkah.length; i++) {
+        const stepDiv = document.createElement('div');
+        stepDiv.className = 'step';
+        if (data.tanggal[i]) {
+          stepDiv.classList.add('done');
+          stepDiv.textContent = `${langkah[i]} (Tanggal: ${data.tanggal[i]})`;
+        } else {
+          stepDiv.textContent = `${langkah[i]} (Belum dilakukan)`;
+        }
+        resultDiv.appendChild(stepDiv);
+      }
+    }
+
     function hitungEkspirasi() {
       const tglPenahanan = new Date(document.getElementById("tglPenahanan").value);
       const tahunVonis = parseInt(document.getElementById("tahunVonis").value || 0);
@@ -139,21 +262,40 @@
         return;
       }
 
-      let totalHariVonis = (tahunVonis * 365) + (bulanVonis * 30) + hariVonis;
+      // Fungsi untuk memeriksa apakah tahun kabisat
+      function isLeapYear(year) {
+        return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+      }
+
+      // Fungsi untuk menghitung jumlah hari dalam tahun
+      function daysInYear(year) {
+        return isLeapYear(year) ? 366 : 365;
+      }
+
+      // Menghitung total hari vonis dengan benar, memperhitungkan tahun kabisat
+      let totalHariVonis = 0;
+      for (let i = 0; i < tahunVonis; i++) {
+        totalHariVonis += daysInYear(tglPenahanan.getFullYear() + i);
+      }
+      totalHariVonis += (bulanVonis * 30) + hariVonis; // Mengasumsikan 30 hari untuk setiap bulan
+
+      // Menghitung total hari remisi
       let totalHariRemisi = (remisiBulan * 30) + remisiHari;
+
       let totalHariSetelahRemisi = totalHariVonis - totalHariRemisi;
 
+      // Menghitung tanggal ekspirasi setelah penambahan hari vonis
       let tanggalEkspirasi = new Date(tglPenahanan);
       tanggalEkspirasi.setDate(tanggalEkspirasi.getDate() + totalHariSetelahRemisi);
 
       let sepertiga = new Date(tglPenahanan);
-      sepertiga.setDate(sepertiga.getDate() + Math.floor(totalHariSetelahRemisi * 1/3));
+      sepertiga.setDate(sepertiga.getDate() + Math.floor(totalHariSetelahRemisi * 1 / 3));
 
       let setengah = new Date(tglPenahanan);
-      setengah.setDate(setengah.getDate() + Math.floor(totalHariSetelahRemisi * 1/2));
+      setengah.setDate(setengah.getDate() + Math.floor(totalHariSetelahRemisi * 1 / 2));
 
       let duapertiga = new Date(tglPenahanan);
-      duapertiga.setDate(duapertiga.getDate() + Math.floor(totalHariSetelahRemisi * 2/3));
+      duapertiga.setDate(duapertiga.getDate() + Math.floor(totalHariSetelahRemisi * 2 / 3));
 
       document.getElementById("hasilEkspirasi").innerHTML = `
         <p>Tanggal Ekspirasi: <strong>${tanggalEkspirasi.toDateString()}</strong></p>
@@ -163,5 +305,6 @@
       `;
     }
   </script>
+
 </body>
 </html>
